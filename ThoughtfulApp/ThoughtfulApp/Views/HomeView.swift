@@ -11,7 +11,7 @@ struct HomeView: View {
     @Query(sort: \Person.name, order: .forward) var people: [Person]
     var body: some View {
         VStack {
-            
+           
         }
         .navigationTitle("People")
     }

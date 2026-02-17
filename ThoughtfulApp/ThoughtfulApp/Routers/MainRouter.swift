@@ -25,13 +25,13 @@ final class MainRouter {
             case .homeView:
                 HomeView()
             case .addEditPersonView(person: let person):
-                EmptyView()
+                AddEditPersonView(person: person)
             case .personView(person: let person):
-                EmptyView()
+                PersonView(person: person)
             case .addEditGiftView(gift: let gift, person: let person):
-                EmptyView()
+                AddEditGiftView(gift: gift, person: person)
             case .settingsView:
-                EmptyView()
+                SettingsView()
         }
     }
     
