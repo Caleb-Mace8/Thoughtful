@@ -10,10 +10,27 @@ import SwiftUI
 struct AddEditPersonView: View {
     var person: Person?
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if let person {
+            EditPersonView(person: person)
+        } else {
+            AddPersonView()
+        }
     }
 }
 
-#Preview {
-    AddEditPersonView()
+struct AddPersonView: View {
+    @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, gifts: [])
+    var body: some View {
+        Text("AddPersonView")
+    }
+}
+
+struct EditPersonView: View {
+    @State var person: Person
+    init(person: Person) {
+        self.person = person
+    }
+    var body: some View {
+        Text("EditPersonView")
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RootView: View {
     @State var router = MainRouter()
@@ -22,4 +23,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
+        .modelContainer(for: Person.self, inMemory: true)
 }
