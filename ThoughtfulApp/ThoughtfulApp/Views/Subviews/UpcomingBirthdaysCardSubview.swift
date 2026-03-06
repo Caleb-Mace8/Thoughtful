@@ -4,8 +4,11 @@
 //
 //  Created by Caleb Mace on 2/23/26.
 //
+
 import Foundation
 import SwiftUI
+    
+//TODO: Create card subview.
 
 struct UpcomingBirthdaysCardSubview: View {
     var person: Person
@@ -16,4 +19,3 @@ struct UpcomingBirthdaysCardSubview: View {
         }
     }
 }
-//TODO: Create card subview.

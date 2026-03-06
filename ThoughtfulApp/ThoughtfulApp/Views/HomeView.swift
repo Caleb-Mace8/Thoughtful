@@ -4,22 +4,22 @@
 //
 //  Created by Caleb Mace on 2/13/26.
 //
+
 import SwiftUI
 import SwiftData
 
 
 struct HomeView: View {
     @Query(sort: \Person.name, order: .forward) var people: [Person]
-    @Environment(MainRouter.self) var router
+    @State var router = PeopleRouter()
     @Environment(\.modelContext) var context
-    @State var isPresenting: Bool = false
     @State var viewModel = HomeViewModel()
     @State var upcomingBirthdays: [Person] = []
     var body: some View {
         VStack {
             HStack {
                 ScrollView {
-                    //TODO: Add view for upcoming events and logic for fetching those people
+                        //TODO: Add view for upcoming events and logic for fetching those people
                     ForEach(upcomingBirthdays) { person in
                         
                     }
@@ -42,10 +42,21 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem {
                 Button {
-                    router.navigateTo(.addEditPersonView(person: nil))
+                    router.present(.addEditPersonView(person: nil))
                 } label: {
                     Image(systemName: "plus")
+                        .foregroundStyle(.black)
                 }
+                .buttonStyle(.glassProminent)
+                .tint(.accent)
+            }
+        }
+        .sheet(item: $router.sheetPresenting) { sheet in
+            switch sheet {
+                case .addEditPersonView(let person):
+                    AddEditPersonView(person: person)
+                case .addEditGiftView:
+                    EmptyView()
             }
         }
         .navigationTitle("People")
