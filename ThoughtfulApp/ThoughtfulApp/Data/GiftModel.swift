@@ -16,12 +16,12 @@ final class Gift: Identifiable {
     var image: String?
     var giftStatus: String = "notBought"
     var price: Double
-    var person: Person
+    var wishlist: Wishlist
     
-    init (title: String, giftDescription: String? = nil, price: Double, person: Person) {
+    init (title: String, giftDescription: String? = nil, price: Double, wishlist: Wishlist) {
         self.title = title
         self.giftDescription = giftDescription
         self.price = price
-        self.person = person
+        self.wishlist = wishlist
     }
 }

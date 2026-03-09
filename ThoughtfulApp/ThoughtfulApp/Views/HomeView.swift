@@ -21,7 +21,7 @@ struct HomeView: View {
                 ScrollView {
                         //TODO: Add view for upcoming events and logic for fetching those people
                     ForEach(upcomingBirthdays) { person in
-                        
+                        UpcomingBirthdaysCardSubview(person: person)
                     }
                 }
             }

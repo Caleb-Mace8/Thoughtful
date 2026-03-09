@@ -12,10 +12,12 @@ import SwiftUI
 
 struct UpcomingBirthdaysCardSubview: View {
     var person: Person
+    var colors: [Color] = [.cardColor1, .cardColor2]
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
+                .foregroundStyle(colors.randomElement()!)
         }
     }
 }

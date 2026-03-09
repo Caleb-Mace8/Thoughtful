@@ -12,7 +12,7 @@ import SwiftData
 struct ThoughtfulAppApp: App {
     var body: some Scene {
         WindowGroup {
-            PeopleRootView()
+            RootTabView()
         }
         .modelContainer(for: Person.self)
     }
