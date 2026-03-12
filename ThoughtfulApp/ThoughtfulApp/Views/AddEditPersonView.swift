@@ -1,9 +1,9 @@
-//
-//  AddEditPersonView.swift
-//  ThoughtfulApp
-//
-//  Created by Caleb Mace on 2/13/26.
-//
+    //
+    //  AddEditPersonView.swift
+    //  ThoughtfulApp
+    //
+    //  Created by Caleb Mace on 2/13/26.
+    //
 
 import SwiftUI
 import SwiftData
@@ -57,78 +57,90 @@ enum NotificationTimePreset: String, CaseIterable, Identifiable {
 struct AddPersonView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @State var router = PeopleRouter()
     @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [])
     @State var notificationDate: Date = Date()
     @State var notificationSelection: NotificationTimePreset = .aWeekBefore
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment:.top) {
-                Text("Add a New Person")
-                    .font(.title.bold())
-                Spacer()
-                Button {
-                    person.timeBeforeNotification = notificationDate
-                    context.insert(person)
-                    router.dismissSheet()
-                    dismiss()
-                } label: {
-                    Text("Save")
+        NavigationStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Name: ")
+                    Spacer()
+                    TextField("Enter a name...", text: $person.name)
+                        .textFieldStyle(.roundedBorder)
                 }
-                .buttonStyle(.glassProminent)
+                .padding(.vertical)
+                DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
+                    .padding(.vertical)
+                Text("Age: \(person.age)")
+                    .padding(.vertical)
+                Toggle("Birthday Reminder", isOn: $person.notifications)
+                    .padding(.vertical)
+                VStack {
+                    HStack {
+                        Text("Date of Reminder: ")
+                        Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
+                        Spacer()
+                        Picker("", selection: $notificationSelection) {
+                            ForEach(NotificationTimePreset.allCases) { preset in
+                                Text(preset.title).tag(preset)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                    .padding(.vertical)
+                    if notificationSelection == .custom {
+                        DatePicker("Notification Date", selection: $notificationDate, displayedComponents: .date)
+                    }
+                }
+                .padding(.horizontal, 5)
+                .padding(.vertical)
+                .overlay {
+                    if !person.notifications {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle(.gray.opacity(0.8))
+                            .shadow(radius: 5.0)
+                    }
+                }
             }
             .padding()
-            Spacer()
-            HStack {
-                Text("Name: ")
-                Spacer()
-                TextField("Enter a name...", text: $person.name)
-                    .textFieldStyle(.roundedBorder)
+            .onChange(of: notificationSelection) {
+                if notificationSelection != .custom {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
             }
-            .padding(.vertical)
-            DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
-                .padding(.vertical)
-            Text("Age: \(person.age)")
-                .padding(.vertical)
-            Toggle("Birthday Reminder", isOn: $person.notifications)
-                .padding(.vertical)
-            VStack {
-                HStack {
-                    Text("Date of Reminder: ")
-                    Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
-                    Spacer()
-                    Picker("", selection: $notificationSelection) {
-                        ForEach(NotificationTimePreset.allCases) { preset in
-                            Text(preset.title).tag(preset)
-                        }
+            .onChange(of: person.birthday) { _, newValue in
+                person.age = Calendar.current.dateComponents([.year], from: newValue, to: Date()).year!
+                if notificationSelection != .custom {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
+            }
+            .onChange(of: person.notifications) { _, _ in
+                if notificationSelection != .custom {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
                     }
-                    .pickerStyle(.menu)
                 }
-                .padding(.vertical)
-                if notificationSelection == .custom {
-                    DatePicker("Notification Date", selection: $notificationDate, displayedComponents: .date)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        person.timeBeforeNotification = notificationDate
+                        context.insert(person)
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                            .foregroundStyle(.black)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .tint(.accent)
                 }
             }
-            .padding(.vertical)
-            .overlay {
-                if !person.notifications {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.gray.opacity(0.75))
-                }
-            }
-            Spacer()
-        }
-        .padding()
-        .onChange(of: notificationSelection) {
-            if notificationSelection != .custom {
-                notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
-            }
-        }
-        .onChange(of: person.birthday) { _, newValue in
-            person.age = Calendar.current.dateComponents([.year], from: newValue, to: Date()).year!
-        }
-        .onChange(of: person.notifications) { _, _ in
-            notificationDate = Calendar.current.date(byAdding: .day, value: -7, to: person.birthday)!
         }
     }
 }

@@ -1,9 +1,9 @@
-//
-//  HomeView.swift
-//  ThoughtfulApp
-//
-//  Created by Caleb Mace on 2/13/26.
-//
+    //
+    //  HomeView.swift
+    //  ThoughtfulApp
+    //
+    //  Created by Caleb Mace on 2/13/26.
+    //
 
 import SwiftUI
 import SwiftData
@@ -11,55 +11,64 @@ import SwiftData
 
 struct HomeView: View {
     @Query(sort: \Person.name, order: .forward) var people: [Person]
-    @State var router = PeopleRouter()
     @Environment(\.modelContext) var context
     @State var viewModel = HomeViewModel()
     @State var upcomingBirthdays: [Person] = []
     var body: some View {
-        VStack {
-            HStack {
-                ScrollView {
-                        //TODO: Add view for upcoming events and logic for fetching those people
-                    ForEach(upcomingBirthdays) { person in
-                        UpcomingBirthdaysCardSubview(person: person)
-                    }
-                }
-            }
+        NavigationStack {
             List {
-                ForEach(people) { person in
-                    Button {
-                        router.navigateTo(.personView(person: person))
-                    } label: {
-                        Text(person.name)
-                            .font(.largeTitle.bold())
+                if !upcomingBirthdays.isEmpty {
+                    Section("Upcoming") {
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(upcomingBirthdays) { person in
+                                    NavigationLink(destination: PersonView(person: person)) {
+                                        UpcomingBirthdaysCardSubview(person: person)
+                                    }
+                                }
+                            }
+                        }
+                        .scrollIndicators(.hidden)
                     }
                 }
-            }
-        }
-        .onAppear {
-            upcomingBirthdays = viewModel.findUpcomingEvents()
-        }
-        .toolbar {
-            ToolbarItem {
-                Button {
-                    router.present(.addEditPersonView(person: nil))
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundStyle(.black)
+                Section {
+                    ForEach(people) { person in
+                        NavigationLink {
+                            PersonView(person: person)
+                        } label: {
+                            Text(person.name)
+                        }
+                    }
+                    .onDelete(perform: { offset in
+                        let toDelete = offset.map { people[$0] }
+                        for i in toDelete {
+                            context.delete(i)
+                        }
+                    })
                 }
-                .buttonStyle(.glassProminent)
-                .tint(.accent)
             }
-        }
-        .sheet(item: $router.sheetPresenting) { sheet in
-            switch sheet {
-                case .addEditPersonView(let person):
-                    AddEditPersonView(person: person)
-                case .addEditGiftView:
-                    EmptyView()
+            .onAppear {
+                viewModel.people = people
+                upcomingBirthdays = viewModel.findUpcomingEvents()
             }
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        viewModel.person = nil
+                        viewModel.isPresenting.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundStyle(.black)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .tint(.accent)
+                }
+            }
+            .sheet(isPresented: $viewModel.isPresenting) {
+                AddEditPersonView(person: viewModel.person)
+            }
+            .navigationTitle("People")
         }
-        .navigationTitle("People")
     }
 }
 

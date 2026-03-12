@@ -7,17 +7,30 @@
 
 import Foundation
 import SwiftUI
-    
-//TODO: Create card subview.
 
 struct UpcomingBirthdaysCardSubview: View {
     var person: Person
-    var colors: [Color] = [.cardColor1, .cardColor2]
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(colors.randomElement()!)
+        HStack {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .frame(width: 75, height: 75)
+                .foregroundStyle(.ultraThickMaterial)
+            Spacer()
+            VStack(alignment: .trailing) {
+                Text(person.name)
+                    .foregroundStyle(.ultraThickMaterial)
+                    .bold()
+                Text(person.birthday.formatted(date: .long, time: .omitted).split(separator: ",")[0])
+                    .foregroundStyle(.ultraThickMaterial)
+            }
+        }
+        .frame(width: 200, height: 65)
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.accent)
         }
     }
 }

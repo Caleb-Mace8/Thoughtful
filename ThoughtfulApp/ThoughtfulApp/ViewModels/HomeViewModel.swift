@@ -10,7 +10,9 @@ import Foundation
 
 @Observable
 class HomeViewModel {
+    var person: Person? = nil
     var people: [Person] = []
+    var isPresenting: Bool = false
     
     func findUpcomingEvents() -> [Person] {
         guard people != [] else { return [] }

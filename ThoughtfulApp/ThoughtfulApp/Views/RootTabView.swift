@@ -11,7 +11,7 @@ struct RootTabView: View {
     var body: some View {
         TabView {
             Tab("People", systemImage: "person.2") {
-                PeopleRootView()
+                HomeView()
             }
             Tab("Lists", systemImage: "book.pages") {
                 ListsRootView()

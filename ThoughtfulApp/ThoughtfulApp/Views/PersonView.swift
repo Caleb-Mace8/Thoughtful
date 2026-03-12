@@ -10,6 +10,7 @@ import SwiftUI
 struct PersonView: View {
     var person: Person
     var body: some View {
-        Text("PersonView")
+        Text(person.name)
+            .bold()
     }
 }
