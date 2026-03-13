@@ -12,7 +12,9 @@ import SwiftData
 final class Person: Identifiable {
     var id: UUID = UUID()
     var name: String
-    var age: Int
+    var age: Int {
+        return Calendar.current.dateComponents([.year], from: birthday, to: Date()).year!
+    }
     var birthday: Date
     var notifications: Bool
     var timeBeforeNotification: Date? = nil
@@ -20,7 +22,6 @@ final class Person: Identifiable {
     
     init(name: String, age: Int, birthday: Date, notifications: Bool, wishlists: [Wishlist]) {
         self.name = name
-        self.age = age
         self.birthday = birthday
         self.notifications = notifications
         self.wishlists = wishlists

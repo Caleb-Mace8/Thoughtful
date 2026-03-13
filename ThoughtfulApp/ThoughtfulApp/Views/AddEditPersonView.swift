@@ -110,7 +110,6 @@ struct AddPersonView: View {
                 }
             }
             .onChange(of: person.birthday) { _, newValue in
-                person.age = Calendar.current.dateComponents([.year], from: newValue, to: Date()).year!
                 if notificationSelection != .custom {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
                 }

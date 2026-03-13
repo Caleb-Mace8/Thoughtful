@@ -24,6 +24,8 @@ struct UpcomingBirthdaysCardSubview: View {
                     .bold()
                 Text(person.birthday.formatted(date: .long, time: .omitted).split(separator: ",")[0])
                     .foregroundStyle(.ultraThickMaterial)
+                Text("Turning: \(person.age + 1)")
+                    .foregroundStyle(.ultraThickMaterial)
             }
         }
         .frame(width: 200, height: 65)

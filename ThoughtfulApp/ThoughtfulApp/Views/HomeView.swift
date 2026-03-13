@@ -44,6 +44,8 @@ struct HomeView: View {
                         for i in toDelete {
                             context.delete(i)
                         }
+                        viewModel.people = people
+                        upcomingBirthdays = viewModel.findUpcomingEvents()
                     })
                 }
             }
