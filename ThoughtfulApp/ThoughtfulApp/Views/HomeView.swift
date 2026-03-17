@@ -16,38 +16,67 @@ struct HomeView: View {
     @State var upcomingBirthdays: [Person] = []
     var body: some View {
         NavigationStack {
-            List {
-                if !upcomingBirthdays.isEmpty {
-                    Section("Upcoming") {
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(upcomingBirthdays) { person in
-                                    NavigationLink(destination: PersonView(person: person)) {
-                                        UpcomingBirthdaysCardSubview(person: person)
+            Group {
+                if people.isEmpty {
+                    HStack {
+                        Text("Add Your First Person!")
+                            .bold()
+                        Button {
+                            viewModel.person = nil
+                            viewModel.isPresenting.toggle()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                        }
+                        .tint(.accent)
+                    }
+                } else {
+                    List {
+                        if !upcomingBirthdays.isEmpty {
+                            Section("Upcoming") {
+                                ScrollView(.horizontal) {
+                                    HStack {
+                                        ForEach(upcomingBirthdays) { person in
+                                            NavigationLink(destination: PersonView(person: person)) {
+                                                UpcomingBirthdaysCardSubview(person: person)
+                                            }
+                                        }
                                     }
                                 }
+                                .scrollIndicators(.hidden)
                             }
                         }
-                        .scrollIndicators(.hidden)
-                    }
-                }
-                Section {
-                    ForEach(people) { person in
-                        NavigationLink {
-                            PersonView(person: person)
-                        } label: {
-                            Text(person.name)
+                        Section {
+                            ForEach(people) { person in
+                                NavigationLink {
+                                    PersonView(person: person)
+                                } label: {
+                                    Text(person.name)
+                                }
+                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                    NavigationLink {
+                                        AddEditPersonView(person: person)
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                        Text("Edit")
+                                    }
+                                    .tint(.blue)
+                                }
+                            }
+                            .onDelete(perform: { offset in
+                                let toDelete = offset.map { people[$0] }
+                                for i in toDelete {
+                                    context.delete(i)
+                                }
+                                viewModel.people = people
+                                upcomingBirthdays = viewModel.findUpcomingEvents()
+                            })
                         }
                     }
-                    .onDelete(perform: { offset in
-                        let toDelete = offset.map { people[$0] }
-                        for i in toDelete {
-                            context.delete(i)
-                        }
-                        viewModel.people = people
-                        upcomingBirthdays = viewModel.findUpcomingEvents()
-                    })
                 }
+            }
+            .onChange(of: people) {
+                viewModel.people = people
+                upcomingBirthdays = viewModel.findUpcomingEvents()
             }
             .onAppear {
                 viewModel.people = people
@@ -60,7 +89,6 @@ struct HomeView: View {
                         viewModel.isPresenting.toggle()
                     } label: {
                         Image(systemName: "plus")
-                            .foregroundStyle(.black)
                     }
                     .buttonStyle(.glassProminent)
                     .tint(.accent)
@@ -68,6 +96,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $viewModel.isPresenting) {
                 AddEditPersonView(person: viewModel.person)
+                    .presentationDetents([.fraction(0.6)])
             }
             .navigationTitle("People")
         }

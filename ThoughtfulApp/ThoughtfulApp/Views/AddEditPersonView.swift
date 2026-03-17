@@ -57,7 +57,7 @@ enum NotificationTimePreset: String, CaseIterable, Identifiable {
 struct AddPersonView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [])
+    @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [Wishlist(title: Calendar.current.component(.year, from: Date.now).description, author: "", gifts: [])], notes: "Favorite Color: ")
     @State var notificationDate: Date = Date()
     @State var notificationSelection: NotificationTimePreset = .aWeekBefore
     var body: some View {
@@ -72,10 +72,16 @@ struct AddPersonView: View {
                 .padding(.vertical)
                 DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
                     .padding(.vertical)
-                Text("Age: \(person.age)")
-                    .padding(.vertical)
+                HStack {
+                    Text("Age:")
+                    Spacer()
+                    Text("\(person.age)")
+                        .bold()
+                }
+                .padding(.vertical)
                 Toggle("Birthday Reminder", isOn: $person.notifications)
                     .padding(.vertical)
+                if person.notifications {
                 VStack {
                     HStack {
                         Text("Date of Reminder: ")
@@ -95,12 +101,6 @@ struct AddPersonView: View {
                 }
                 .padding(.horizontal, 5)
                 .padding(.vertical)
-                .overlay {
-                    if !person.notifications {
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundStyle(.gray.opacity(0.8))
-                            .shadow(radius: 5.0)
-                    }
                 }
             }
             .padding()
@@ -134,7 +134,6 @@ struct AddPersonView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "checkmark")
-                            .foregroundStyle(.black)
                     }
                     .buttonStyle(.glassProminent)
                     .tint(.accent)

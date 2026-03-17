@@ -19,11 +19,13 @@ final class Person: Identifiable {
     var notifications: Bool
     var timeBeforeNotification: Date? = nil
     @Relationship(deleteRule: .cascade, inverse: \Wishlist.assignedPerson) var wishlists: [Wishlist]
+    var notes: String
     
-    init(name: String, age: Int, birthday: Date, notifications: Bool, wishlists: [Wishlist]) {
+    init(name: String, age: Int, birthday: Date, notifications: Bool, wishlists: [Wishlist], notes: String) {
         self.name = name
         self.birthday = birthday
         self.notifications = notifications
         self.wishlists = wishlists
+        self.notes = notes
     }
 }

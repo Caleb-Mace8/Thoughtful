@@ -16,9 +16,6 @@ struct RootTabView: View {
             Tab("Lists", systemImage: "book.pages") {
                 ListsRootView()
             }
-            Tab("Settings", systemImage: "gearshape") {
-                SettingsView()
-            }
         }
     }
 }
