@@ -57,14 +57,16 @@ enum NotificationTimePreset: String, CaseIterable, Identifiable {
 struct AddPersonView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [Wishlist(title: Calendar.current.component(.year, from: Date.now).description, author: "", gifts: [])], notes: "Favorite Color: ")
+    @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [Wishlist(title: Calendar.current.component(.year, from: Date.now).description, author: "", gifts: [], budget: 0.0)], notes: "Favorite Color: ")
     @State var notificationDate: Date = Date()
     @State var notificationSelection: NotificationTimePreset = .aWeekBefore
+    @State var budget: Double = 0
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 HStack {
                     Text("Name: ")
+                        .bold()
                     Spacer()
                     TextField("Enter a name...", text: $person.name)
                         .textFieldStyle(.roundedBorder)
@@ -72,35 +74,51 @@ struct AddPersonView: View {
                 .padding(.vertical)
                 DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
                     .padding(.vertical)
+                    .bold()
                 HStack {
                     Text("Age:")
+                        .bold()
                     Spacer()
                     Text("\(person.age)")
                         .bold()
                 }
                 .padding(.vertical)
                 Toggle("Birthday Reminder", isOn: $person.notifications)
+                    .bold()
                     .padding(.vertical)
                 if person.notifications {
+                    VStack {
+                        HStack {
+                            Text("Date of Reminder: ")
+                                .bold()
+                            Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
+                            Spacer()
+                            Picker("", selection: $notificationSelection) {
+                                ForEach(NotificationTimePreset.allCases) { preset in
+                                    Text(preset.title).tag(preset)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                        }
+                        .padding(.vertical)
+                        if notificationSelection == .custom {
+                            DatePicker("Notification Date", selection: $notificationDate, displayedComponents: .date)
+                        }
+                    }
+                    .padding(.horizontal, 5)
+                    .padding(.vertical)
+                }
                 VStack {
                     HStack {
-                        Text("Date of Reminder: ")
-                        Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
+                        Text("Budget:")
+                            .bold()
                         Spacer()
-                        Picker("", selection: $notificationSelection) {
-                            ForEach(NotificationTimePreset.allCases) { preset in
-                                Text(preset.title).tag(preset)
-                            }
-                        }
-                        .pickerStyle(.menu)
+                        Text("$\(budget, specifier: "%.2f")")
+                            .bold()
                     }
                     .padding(.vertical)
-                    if notificationSelection == .custom {
-                        DatePicker("Notification Date", selection: $notificationDate, displayedComponents: .date)
-                    }
-                }
-                .padding(.horizontal, 5)
-                .padding(.vertical)
+                    Slider(value: $budget, in: 0...3000, step: 1)
+                        .padding(.vertical)
                 }
             }
             .padding()
@@ -109,12 +127,12 @@ struct AddPersonView: View {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
                 }
             }
-            .onChange(of: person.birthday) { _, newValue in
+            .onChange(of: person.birthday) {
                 if notificationSelection != .custom {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
                 }
             }
-            .onChange(of: person.notifications) { _, _ in
+            .onChange(of: person.notifications) {
                 if notificationSelection != .custom {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
                 }

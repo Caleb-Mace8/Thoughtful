@@ -15,12 +15,17 @@ final class Wishlist: Identifiable, Hashable {
     var title: String
     var author: String
     var createdAt: Date = Date()
-    var budget: Double? = nil
+    var budget: Double
     @Relationship(deleteRule: .cascade, inverse: \Gift.wishlist) var gifts: [Gift]
     
-    init(title: String, author: String, gifts: [Gift]) {
+    init(title: String, author: String, gifts: [Gift], budget: Double?) {
         self.title = title
         self.author = author
         self.gifts = gifts
+        if let budget {
+            self.budget = budget
+        } else {
+            self.budget = 0.0
+        }
     }
 }

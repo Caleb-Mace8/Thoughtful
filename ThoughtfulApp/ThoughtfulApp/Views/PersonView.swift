@@ -6,8 +6,10 @@
     //
 
 import SwiftUI
+import SwiftData
 
 struct PersonView: View {
+    @Environment(\.modelContext) var context
     @State var person: Person
     var body: some View {
         NavigationStack {
@@ -40,7 +42,7 @@ struct PersonView: View {
                 }
                 
                 ForEach(person.wishlists) { list in
-                    Section(header: ListHeaderCard(list: list)) {
+                    Section(header: ListHeaderCard(person: person, list: list)) {
                         if list.gifts.isEmpty {
                             Text("No Gifts Found in This List.")
                         } else {
@@ -48,7 +50,18 @@ struct PersonView: View {
                                 NavigationLink {
                                     GiftView(gift: gift)
                                 } label: {
-                                    Text(gift.title)
+                                    VStack(alignment: .leading) {
+                                        Text(gift.title)
+                                            .bold()
+                                        Text("$\(gift.price, specifier: "%.2f")")
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                            }
+                            .onDelete { offset in
+                                for index in offset {
+                                    let gift = list.gifts[index]
+                                    context.delete(gift)
                                 }
                             }
                         }
@@ -58,7 +71,7 @@ struct PersonView: View {
             .toolbar {
                 ToolbarItem {
                     NavigationLink {
-                        AddEditListView()
+                        AddEditListView(person: person)
                     } label: {
                         Image(systemName: "plus")
                     }
