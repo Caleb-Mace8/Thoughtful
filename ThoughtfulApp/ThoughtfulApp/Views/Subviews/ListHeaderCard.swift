@@ -10,6 +10,15 @@ import SwiftUI
 struct ListHeaderCard: View {
     var person: Person
     var list: Wishlist
+    var total: Double {
+        var count: Double = 0.0
+        for gift in list.gifts {
+            if gift.giftStatus != GiftStatus.notBought {
+                count += gift.price
+            }
+        }
+        return count
+    }
     var filledBarPercent: Double {
         let barWidth: Double = 350
         let spent: Double = list.gifts.reduce(0) { partial, gift in
@@ -38,7 +47,7 @@ struct ListHeaderCard: View {
                 }
                 .buttonStyle(.glass)
                 NavigationLink {
-                    AddEditGiftView(wishlist: list)
+                    AddGiftView(wishlist: list)
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: 30, height: 30)
@@ -53,6 +62,10 @@ struct ListHeaderCard: View {
                 Text("Gift Count: \(list.gifts.count)")
             }
             .padding(.vertical)
+            HStack {
+                Text("$\(total, specifier: "%.2f")")
+                Spacer()
+            }
             ZStack(alignment: .leading){
                 Capsule()
                     .foregroundStyle(.ultraThickMaterial)

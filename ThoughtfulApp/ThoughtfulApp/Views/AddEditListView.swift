@@ -35,11 +35,17 @@ struct AddListView: View {
     @State var list: Wishlist = .init(title: "", author: "", gifts: [], budget: 0.00)
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 HStack {
                     Text("Title:")
+                        .bold()
                     TextField("", text: $list.title)
                         .textFieldStyle(.roundedBorder)
+                }
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
                 }
                 VStack {
                     HStack {
@@ -71,6 +77,11 @@ struct AddListView: View {
                     .padding(.vertical)
                     Slider(value: $list.budget, in: 0...3000, step: 1)
                         .padding(.vertical)
+                }
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
                 }
             }
             .onAppear {
@@ -101,16 +112,23 @@ struct AddListView: View {
 }
 
 struct EditListView: View {
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var context
     @State var list: Wishlist
     @State var budgetString: String = ""
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 HStack {
                     Text("Title:")
                         .bold()
                     TextField("", text: $list.title)
                         .textFieldStyle(.roundedBorder)
+                }
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
                 }
                 VStack {
                     HStack {
@@ -143,6 +161,11 @@ struct EditListView: View {
                     Slider(value: $list.budget, in: 0...3000, step: 1)
                         .padding(.vertical)
                 }
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
+                }
             }
             .onAppear {
                 let formattedBudget = String(format: "%.2f", self.list.budget)
@@ -154,6 +177,17 @@ struct EditListView: View {
             }
             .padding()
             .navigationTitle("Edit a List")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        context.delete(list)
+                        try? context.save()
+                        dismiss()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
         }
     }
 }

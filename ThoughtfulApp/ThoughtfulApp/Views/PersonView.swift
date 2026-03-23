@@ -55,6 +55,7 @@ struct PersonView: View {
                                             .bold()
                                         Text("$\(gift.price, specifier: "%.2f")")
                                             .foregroundStyle(.secondary)
+                                        Text("\(gift.giftStatus.name)")
                                     }
                                 }
                             }
