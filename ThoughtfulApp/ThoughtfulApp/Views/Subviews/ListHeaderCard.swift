@@ -37,6 +37,7 @@ struct ListHeaderCard: View {
         VStack {
             HStack {
                 Text(list.title)
+                    .foregroundStyle(.standardizedText)
                     .font(.title.bold())
                 Spacer()
                 NavigationLink {
@@ -47,7 +48,7 @@ struct ListHeaderCard: View {
                 }
                 .buttonStyle(.glass)
                 NavigationLink {
-                    AddGiftView(wishlist: list)
+                    AddEditGiftView(wishlist: list)
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: 30, height: 30)
@@ -58,12 +59,15 @@ struct ListHeaderCard: View {
             .padding(.vertical)
             HStack {
                 Text("Budget: $\(list.budget, format: .number.precision(.fractionLength(2)))")
+                    .foregroundStyle(.standardizedText)
                 Spacer()
                 Text("Gift Count: \(list.gifts.count)")
+                    .foregroundStyle(.standardizedText)
             }
             .padding(.vertical)
             HStack {
                 Text("$\(total, specifier: "%.2f")")
+                    .foregroundStyle(.standardizedText)
                 Spacer()
             }
             ZStack(alignment: .leading){

@@ -19,41 +19,6 @@ struct AddEditPersonView: View {
     }
 }
 
-enum NotificationTimePreset: String, CaseIterable, Identifiable {
-    case aWeekBefore
-    case twoWeeksBefore
-    case aMonthBefore
-    case custom
-    
-    var id: String { rawValue }
-    
-    var title: String {
-        switch self {
-            case .aWeekBefore:
-                return "A Week Before"
-            case .twoWeeksBefore:
-                return "Two Weeks Before"
-            case .aMonthBefore:
-                return "A Month Before"
-            case .custom:
-                return "Custom"
-        }
-    }
-    
-    var dayOffset: Int {
-        switch self {
-            case .aWeekBefore:
-                return -7
-            case .twoWeeksBefore:
-                return -14
-            case .aMonthBefore:
-                return -30
-            case .custom:
-                return 0
-        }
-    }
-}
-
 struct AddPersonView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
@@ -117,7 +82,7 @@ struct AddPersonView: View {
                         HStack {
                             Text("$")
                                 .bold()
-                            TextField("Enter Budget...", text: $budgetString)
+                            TextField("Enter a Budget...", text: $budgetString)
                                 .keyboardType(.decimalPad)
                                 .frame(minWidth: 50, maxWidth: 100)
                                 .onSubmit {
@@ -139,11 +104,6 @@ struct AddPersonView: View {
                     .padding(.vertical)
                     Slider(value: $budget, in: 0...3000, step: 1)
                         .padding(.vertical)
-                }
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(.ultraThinMaterial)
                 }
             }
             .padding()
@@ -196,7 +156,7 @@ struct EditPersonView: View {
     @State var person: Person
     @State var budgetString: String = "0.00"
     @State var notificationDate: Date = Date()
-    @State var notificationSelection: NotificationTimePreset = .aWeekBefore
+    @State var notificationSelection: NotificationTimePreset? = nil
     @Environment(\.dismiss) var dismiss
     init(person: Person) {
         self.person = person
@@ -232,7 +192,7 @@ struct EditPersonView: View {
                             .bold()
                         Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
                         Spacer()
-                        Picker("", selection: $notificationSelection) {
+                        Picker("Pick a Date...", selection: $notificationSelection) {
                             ForEach(NotificationTimePreset.allCases) { preset in
                                 Text(preset.title).tag(preset)
                             }
@@ -252,20 +212,27 @@ struct EditPersonView: View {
         .padding()
         .onChange(of: notificationSelection) {
             if notificationSelection != .custom {
-                notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
-                person.timeBeforeNotification = notificationDate
+                if let notificationSelection {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
             }
         }
         .onChange(of: person.birthday) {
             if notificationSelection != .custom {
-                notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                if let notificationSelection {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
             }
         }
         .onChange(of: person.notifications) {
             if notificationSelection != .custom {
-                notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
-                person.timeBeforeNotification = notificationDate
+                if let notificationSelection {
+                    notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
+                }
             }
+        }
+        .onChange(of: notificationDate) {
+            person.timeBeforeNotification = notificationDate
         }
         .onAppear {
             if let notifcationReminder = person.timeBeforeNotification {

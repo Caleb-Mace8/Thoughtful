@@ -32,7 +32,9 @@ struct HomeView: View {
                 } else {
                     List {
                         if !upcomingBirthdays.isEmpty {
-                            Section("Upcoming") {
+                            Section(header: Text("Upcoming Birthdays")
+                                .foregroundStyle(.standardizedText)
+                                .bold()) {
                                 ScrollView(.horizontal) {
                                     HStack {
                                         ForEach(upcomingBirthdays) { person in

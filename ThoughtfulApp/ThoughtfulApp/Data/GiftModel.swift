@@ -40,6 +40,7 @@ final class Gift: Identifiable {
     var giftStatus: GiftStatus
     var price: Double
     var wishlist: Wishlist
+    var link: String? = nil
     
     init (title: String, giftDescription: String, price: Double, wishlist: Wishlist, giftStatus: GiftStatus = .notBought) {
         self.title = title

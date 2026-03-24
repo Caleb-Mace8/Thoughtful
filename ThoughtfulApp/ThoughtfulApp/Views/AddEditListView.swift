@@ -35,11 +35,11 @@ struct AddListView: View {
     @State var list: Wishlist = .init(title: "", author: "", gifts: [], budget: 0.00)
     var body: some View {
         NavigationStack {
-            ScrollView {
+            VStack {
                 HStack {
                     Text("Title:")
                         .bold()
-                    TextField("", text: $list.title)
+                    TextField("Enter a Title...", text: $list.title)
                         .textFieldStyle(.roundedBorder)
                 }
                 .padding()
@@ -55,7 +55,7 @@ struct AddListView: View {
                         HStack {
                             Text("$")
                                 .bold()
-                            TextField("Enter Budget...", text: $budgetString)
+                            TextField("Enter a Budget...", text: $budgetString)
                                 .keyboardType(.decimalPad)
                                 .frame(minWidth: 50, maxWidth: 100)
                                 .onSubmit {
@@ -118,7 +118,7 @@ struct EditListView: View {
     @State var budgetString: String = ""
     var body: some View {
         NavigationStack {
-            ScrollView {
+            VStack {
                 HStack {
                     Text("Title:")
                         .bold()
@@ -138,7 +138,7 @@ struct EditListView: View {
                         HStack {
                             Text("$")
                                 .bold()
-                            TextField("Enter Budget...", text: $budgetString)
+                            TextField("Enter a Budget...", text: $budgetString)
                                 .keyboardType(.decimalPad)
                                 .frame(minWidth: 50, maxWidth: 100)
                                 .onSubmit {
