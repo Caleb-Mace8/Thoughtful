@@ -6,7 +6,7 @@
 //
 
 
-enum NotificationTimePreset: String, CaseIterable, Identifiable {
+enum NotificationTimePreset: String, CaseIterable, Identifiable, Hashable {
     case aWeekBefore
     case twoWeeksBefore
     case aMonthBefore
@@ -26,6 +26,8 @@ enum NotificationTimePreset: String, CaseIterable, Identifiable {
                 return "Custom"
         }
     }
+
+    // Gives the cases a Int value thats computed off the cases value
     
     var dayOffset: Int {
         switch self {

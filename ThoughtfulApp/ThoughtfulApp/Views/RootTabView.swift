@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RootTabView: View {
+    @State var notificationManager = NotificationManager()
     var body: some View {
         TabView {
             Tab("People", systemImage: "person.2") {
@@ -16,6 +17,10 @@ struct RootTabView: View {
             Tab("Lists", systemImage: "book.pages") {
                 ListsRootView()
             }
+        }
+        .environment(notificationManager)
+        .onAppear {
+            notificationManager.requestAuthorization()
         }
     }
 }

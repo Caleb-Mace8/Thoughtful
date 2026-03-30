@@ -106,27 +106,29 @@ struct AddGiftView: View {
                     .foregroundStyle(.ultraThinMaterial)
             }
             .padding(.vertical)
-            VStack {
-                HStack {
-                    Text("Status of the Gift:")
-                        .bold()
-                        .padding(.top, 20)
-                    Spacer()
-                }
-                Picker("Gift Status", selection: $gift.giftStatus) {
-                    ForEach(GiftStatus.allCases, id: \.self) { status in
-                        Text(status.name)
+            if wishlist.assignedPerson != nil {
+                VStack {
+                    HStack {
+                        Text("Status of the Gift:")
                             .bold()
-                            .padding()
+                            .padding(.top, 20)
+                        Spacer()
                     }
+                    Picker("Gift Status", selection: $gift.giftStatus) {
+                        ForEach(GiftStatus.allCases, id: \.self) { status in
+                            Text(status.name)
+                                .bold()
+                                .padding()
+                        }
+                    }
+                    .frame(height: 150)
+                    .pickerStyle(.inline)
                 }
-                .frame(height: 150)
-                .pickerStyle(.inline)
-            }
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(.ultraThinMaterial)
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
+                }
             }
         }
         .toolbar {
@@ -233,27 +235,29 @@ struct EditGiftView: View {
                         .foregroundStyle(.ultraThinMaterial)
                 }
                 .padding(.vertical)
-                VStack {
-                    HStack {
-                        Text("Status of the Gift:")
-                            .bold()
-                            .padding(.top, 20)
-                        Spacer()
-                    }
-                    Picker("Gift Status", selection: $gift.giftStatus) {
-                        ForEach(GiftStatus.allCases, id: \.self) { status in
-                            Text(status.name)
+                if gift.wishlist.assignedPerson != nil {
+                    VStack {
+                        HStack {
+                            Text("Status of the Gift:")
                                 .bold()
-                                .padding()
+                                .padding(.top, 20)
+                            Spacer()
                         }
+                        Picker("Gift Status", selection: $gift.giftStatus) {
+                            ForEach(GiftStatus.allCases, id: \.self) { status in
+                                Text(status.name)
+                                    .bold()
+                                    .padding()
+                            }
+                        }
+                        .frame(height: 150)
+                        .pickerStyle(.inline)
                     }
-                    .frame(height: 150)
-                    .pickerStyle(.inline)
-                }
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(.ultraThinMaterial)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundStyle(.ultraThinMaterial)
+                    }
                 }
             }
             .onAppear {

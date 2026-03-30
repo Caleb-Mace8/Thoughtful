@@ -10,13 +10,8 @@ import Foundation
 import SwiftData
 
 struct AddEditListView: View {
-    var person: Person
+    var person: Person? = nil
     var list: Wishlist? = nil
-    
-    init(person: Person, list: Wishlist? = nil) {
-        self.person = person
-        self.list = list
-    }
     
     var body: some View {
         if let wishlist = list {
@@ -31,7 +26,7 @@ struct AddListView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @State var budgetString: String = ""
-    var person: Person
+    var person: Person?
     @State var list: Wishlist = .init(title: "", author: "", gifts: [], budget: 0.00)
     var body: some View {
         NavigationStack {
@@ -47,41 +42,43 @@ struct AddListView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .foregroundStyle(.ultraThinMaterial)
                 }
-                VStack {
-                    HStack {
-                        Text("Budget:")
-                            .bold()
-                        Spacer()
+                if person != nil {
+                    VStack {
                         HStack {
-                            Text("$")
+                            Text("Budget:")
                                 .bold()
-                            TextField("Enter a Budget...", text: $budgetString)
-                                .keyboardType(.decimalPad)
-                                .frame(minWidth: 50, maxWidth: 100)
-                                .onSubmit {
-                                    guard !budgetString.isEmpty else { return }
-                                    if String(format: "%.2f", self.list.budget) != budgetString {
-                                        if let newValueDouble = Double(budgetString) {
-                                            list.budget = newValueDouble
+                            Spacer()
+                            HStack {
+                                Text("$")
+                                    .bold()
+                                TextField("Enter a Budget...", text: $budgetString)
+                                    .keyboardType(.decimalPad)
+                                    .frame(minWidth: 50, maxWidth: 100)
+                                    .onSubmit {
+                                        guard !budgetString.isEmpty else { return }
+                                        if String(format: "%.2f", self.list.budget) != budgetString {
+                                            if let newValueDouble = Double(budgetString) {
+                                                list.budget = newValueDouble
+                                            }
                                         }
                                     }
-                                }
+                            }
+                            .padding(10)
+                            .background {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke()
+                                    .foregroundStyle(.secondary.opacity(0.2))
+                            }
                         }
-                        .padding(10)
-                        .background {
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke()
-                                .foregroundStyle(.secondary.opacity(0.2))
-                        }
-                    }
-                    .padding(.vertical)
-                    Slider(value: $list.budget, in: 0...3000, step: 1)
                         .padding(.vertical)
-                }
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(.ultraThinMaterial)
+                        Slider(value: $list.budget, in: 0...3000, step: 1)
+                            .padding(.vertical)
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundStyle(.ultraThinMaterial)
+                    }
                 }
             }
             .onAppear {
@@ -96,7 +93,11 @@ struct AddListView: View {
             .toolbar {
                 ToolbarItem {
                     Button {
-                        person.wishlists.append(list)
+                        if let person {
+                            person.wishlists.append(list)
+                        } else {
+                            context.insert(list)
+                        }
                         try? context.save()
                         dismiss()
                     } label: {

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// Displayed above lists for Wishlists, contains information such as title, gift count, budget, and buttons for adding gifts and editing the list.
+
 struct ListHeaderCard: View {
     var person: Person
     var list: Wishlist
@@ -20,7 +22,7 @@ struct ListHeaderCard: View {
         return count
     }
     var filledBarPercent: Double {
-        let barWidth: Double = 350
+        let barWidth: Double = 335
         let spent: Double = list.gifts.reduce(0) { partial, gift in
             if gift.giftStatus != GiftStatus.notBought {
                 return partial + max(0, gift.price)
@@ -73,14 +75,14 @@ struct ListHeaderCard: View {
             ZStack(alignment: .leading){
                 Capsule()
                     .foregroundStyle(.ultraThickMaterial)
-                    .frame(width: 350, height: 50)
+                    .frame(width: 335, height: 50)
                 Capsule()
                     .foregroundStyle(.green)
                     .frame(width: filledBarPercent, height: 50)
             }
         }
+        .scaledToFill()
         .padding()
-        .padding(.horizontal, 10)
         .background {
             RoundedRectangle(cornerRadius: 20)
                 .foregroundStyle(.card)

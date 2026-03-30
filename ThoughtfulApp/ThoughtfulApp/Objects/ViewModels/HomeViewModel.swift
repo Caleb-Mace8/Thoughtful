@@ -14,6 +14,8 @@ class HomeViewModel {
     var people: [Person] = []
     var isPresenting: Bool = false
     
+    // Helper function to create dates off year, month, and day values as Ints.
+    
     func date(year: Int, month: Int, day: Int) -> Date {
         var comps = DateComponents()
         comps.year = year
@@ -21,6 +23,8 @@ class HomeViewModel {
         comps.day = day
         return Calendar.current.date(from: comps) ?? Date()
     }
+    
+    // Function to fetch the next month of people's birthdays and return them in an ordered list of what is coming up soonest.
     
     func findUpcomingEvents() -> [Person] {
         guard people != [] else { return [] }

@@ -69,6 +69,7 @@ struct PersonView: View {
                     }
                 }
             }
+            .scrollIndicators(.hidden)
             .toolbar {
                 ToolbarItem {
                     NavigationLink {

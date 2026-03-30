@@ -1,9 +1,9 @@
-//
-//  AddEditPersonView.swift
-//  ThoughtfulApp
-//
-//  Created by Caleb Mace on 2/13/26.
-//
+    //
+    //  AddEditPersonView.swift
+    //  ThoughtfulApp
+    //
+    //  Created by Caleb Mace on 2/13/26.
+    //
 
 import SwiftUI
 import SwiftData
@@ -20,6 +20,7 @@ struct AddEditPersonView: View {
 }
 
 struct AddPersonView: View {
+    @Environment(NotificationManager.self) var notificationManager
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @State var person: Person = .init(name: "", age: 0, birthday: Date(), notifications: false, wishlists: [Wishlist(title: Calendar.current.component(.year, from: Date.now).description, author: "", gifts: [], budget: 0.0)], notes: "Favorite Color: ")
@@ -27,6 +28,7 @@ struct AddPersonView: View {
     @State var notificationSelection: NotificationTimePreset = .aWeekBefore
     @State var budget: Double = 0
     @State var budgetString: String = "0.00"
+    @State var showAlert: Bool = false
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -107,7 +109,26 @@ struct AddPersonView: View {
                 }
             }
             .padding()
-            .onChange(of: budget) { _, _ in
+            .alert("Enable Notifications in Settings", isPresented: $showAlert) {
+                HStack {
+                    Button {
+                        person.notifications = false
+                        showAlert = false
+                    } label: {
+                        Text("Dismiss")
+                    }
+                    Button {
+                        Task {
+                            let url = URL(string:UIApplication.openSettingsURLString)!
+                            UIApplication.shared.open(url)
+                        }
+                    } label: {
+                        Text("Settings")
+                    }
+                }
+            }
+                // Converts Double to a String trimming off all decimal places after the second.
+            .onChange(of: budget) {
                 let formattedBudget = String(format: "%.2f", self.budget)
                 self.budgetString = formattedBudget
             }
@@ -122,6 +143,9 @@ struct AddPersonView: View {
                 }
             }
             .onChange(of: person.notifications) {
+                if person.notifications == true {
+                    showSettingsPromptIfNeeded()
+                }
                 if notificationSelection != .custom {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
                 }
@@ -150,14 +174,23 @@ struct AddPersonView: View {
             }
         }
     }
+    
+    func showSettingsPromptIfNeeded() {
+        notificationManager.checkAuthorizationStatus { status in
+            guard status == .denied else { return }
+            showAlert = true
+        }
+    }
 }
 
 struct EditPersonView: View {
+    @Environment(NotificationManager.self) var notificationManager
     @State var person: Person
     @State var budgetString: String = "0.00"
     @State var notificationDate: Date = Date()
     @State var notificationSelection: NotificationTimePreset? = nil
     @Environment(\.dismiss) var dismiss
+    @State var showAlert: Bool = false
     init(person: Person) {
         self.person = person
     }
@@ -193,6 +226,8 @@ struct EditPersonView: View {
                         Text(notificationDate.formatted(date: .long, time: .omitted).split(separator: ",")[0])
                         Spacer()
                         Picker("Pick a Date...", selection: $notificationSelection) {
+                            Text("Select a Preset…").tag(NotificationTimePreset?.none)
+                            
                             ForEach(NotificationTimePreset.allCases) { preset in
                                 Text(preset.title).tag(preset)
                             }
@@ -210,6 +245,24 @@ struct EditPersonView: View {
             }
         }
         .padding()
+        .alert("Enable Notifications in Settings", isPresented: $showAlert) {
+            HStack {
+                Button {
+                    person.notifications = false
+                    showAlert = false
+                } label: {
+                    Text("Dismiss")
+                }
+                Button {
+                    Task {
+                        let url = URL(string:UIApplication.openSettingsURLString)!
+                        UIApplication.shared.open(url)
+                    }
+                } label: {
+                    Text("Settings")
+                }
+            }
+        }
         .onChange(of: notificationSelection) {
             if notificationSelection != .custom {
                 if let notificationSelection {
@@ -225,6 +278,9 @@ struct EditPersonView: View {
             }
         }
         .onChange(of: person.notifications) {
+            if person.notifications == true {
+                showSettingsPromptIfNeeded()
+            }
             if notificationSelection != .custom {
                 if let notificationSelection {
                     notificationDate = Calendar.current.date(byAdding: .day, value: notificationSelection.dayOffset, to: person.birthday)!
@@ -235,10 +291,18 @@ struct EditPersonView: View {
             person.timeBeforeNotification = notificationDate
         }
         .onAppear {
-            if let notifcationReminder = person.timeBeforeNotification {
-                notificationDate = notifcationReminder
+            if person.notifications == true {
+                if let notifcationReminder = person.timeBeforeNotification {
+                    notificationDate = notifcationReminder
+                }
             }
         }
         .navigationTitle("Edit a Person")
+    }
+    func showSettingsPromptIfNeeded() {
+        notificationManager.checkAuthorizationStatus { status in
+            guard status == .denied else { return }
+            showAlert = true
+        }
     }
 }

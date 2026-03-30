@@ -27,26 +27,30 @@ struct HomeView: View {
                         } label: {
                             Image(systemName: "plus.circle.fill")
                         }
+                        .buttonStyle(.glassProminent)
                         .tint(.accent)
+                        .buttonBorderShape(.circle)
                     }
                 } else {
                     List {
-                        if !upcomingBirthdays.isEmpty {
-                            Section(header: Text("Upcoming Birthdays")
-                                .foregroundStyle(.standardizedText)
-                                .bold()) {
-                                ScrollView(.horizontal) {
-                                    HStack {
-                                        ForEach(upcomingBirthdays) { person in
-                                            NavigationLink(destination: PersonView(person: person)) {
-                                                UpcomingBirthdaysCardSubview(person: person)
+                        Section(header: Text("Upcoming Birthdays")
+                            .foregroundStyle(.standardizedText)
+                            .bold()) {
+                                if !upcomingBirthdays.isEmpty {
+                                    ScrollView(.horizontal) {
+                                        HStack {
+                                            ForEach(upcomingBirthdays) { person in
+                                                NavigationLink(destination: PersonView(person: person)) {
+                                                    UpcomingBirthdaysCardSubview(person: person)
+                                                }
                                             }
                                         }
                                     }
+                                    .scrollIndicators(.hidden)
+                                } else {
+                                    Text("No Upcoming Birthdays!")
                                 }
-                                .scrollIndicators(.hidden)
                             }
-                        }
                         Section {
                             ForEach(people) { person in
                                 NavigationLink {
@@ -76,6 +80,7 @@ struct HomeView: View {
                     }
                 }
             }
+            // Updates people for the upcoming events then calls it again for state changes
             .onChange(of: people) {
                 viewModel.people = people
                 upcomingBirthdays = viewModel.findUpcomingEvents()
