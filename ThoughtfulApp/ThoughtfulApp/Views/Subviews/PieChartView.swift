@@ -29,7 +29,7 @@ struct PieChartView: View {
             GeometryReader { geometry in
                 if let anchor = chartProxy.plotFrame {
                     let frame = geometry[anchor]
-                    Text("\(percentage * 100, specifier: "%.0f")%")
+                    Text("\(percentage * 100, specifier: "%.2f")%")
                         .font(.title.bold())
                         .position(x: frame.midX, y: frame.midY)
                 }

@@ -75,11 +75,11 @@ struct ListHeaderCard: View {
                 Spacer()
             }
             ZStack(alignment: .leading){
-                Capsule()
+                RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(.ultraThickMaterial)
                     .frame(width: 335, height: 50)
-                Capsule()
-                    .foregroundStyle(.green)
+                RoundedRectangle(cornerRadius: 50)
+                    .foregroundStyle(total > list.budget ? Color.red : Color.green)
                     .frame(width: filledBarPercent, height: 50)
             }
         }
