@@ -107,8 +107,11 @@ struct GiftView: View {
                 NavigationLink {
                     AddEditGiftView(wishlist: gift.wishlist, gift: gift)
                 } label: {
+                    Image(systemName: "pencil")
                     Text("Edit")
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(Color(.blue))
                 .buttonBorderShape(.capsule)
             }
         }

@@ -37,7 +37,12 @@ struct AddPersonView: View {
                         .bold()
                     Spacer()
                     TextField("Enter a name...", text: $person.name)
-                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke()
+                                .foregroundStyle(.secondary.opacity(0.2))
+                        }
                 }
                 .padding(.vertical)
                 DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
@@ -98,7 +103,7 @@ struct AddPersonView: View {
                         }
                         .padding(10)
                         .background {
-                            RoundedRectangle(cornerRadius: 20)
+                            RoundedRectangle(cornerRadius: 30)
                                 .stroke()
                                 .foregroundStyle(.secondary.opacity(0.2))
                         }
@@ -160,9 +165,10 @@ struct AddPersonView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        person.timeBeforeNotification = notificationDate
+                        person.notificationDate = notificationDate
                         person.wishlists[0].budget = budget
-                        person.timeBeforeNotification = notificationDate
+                        person.notificationDate = notificationDate
+                        notificationManager.scheduleNotification(for: person)
                         context.insert(person)
                         dismiss()
                     } label: {
@@ -201,7 +207,12 @@ struct EditPersonView: View {
                     .bold()
                 Spacer()
                 TextField("Enter a name...", text: $person.name)
-                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke()
+                            .foregroundStyle(.secondary.opacity(0.2))
+                    }
             }
             .padding(.vertical)
             DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
@@ -288,11 +299,17 @@ struct EditPersonView: View {
             }
         }
         .onChange(of: notificationDate) {
-            person.timeBeforeNotification = notificationDate
+            if person.notificationDate == nil {
+                person.notificationDate = notificationDate
+                notificationManager.scheduleNotification(for: person)
+            } else {
+                person.notificationDate = notificationDate
+                notificationManager.rescheduleNotification(for: person)
+            }
         }
         .onAppear {
             if person.notifications == true {
-                if let notifcationReminder = person.timeBeforeNotification {
+                if let notifcationReminder = person.notificationDate {
                     notificationDate = notifcationReminder
                 }
             }

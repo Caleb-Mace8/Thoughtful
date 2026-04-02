@@ -35,7 +35,12 @@ struct AddListView: View {
                     Text("Title:")
                         .bold()
                     TextField("Enter a Title...", text: $list.title)
-                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke()
+                                .foregroundStyle(.secondary.opacity(0.2))
+                        }
                 }
                 .padding()
                 .background {
@@ -65,7 +70,7 @@ struct AddListView: View {
                             }
                             .padding(10)
                             .background {
-                                RoundedRectangle(cornerRadius: 20)
+                                RoundedRectangle(cornerRadius: 30)
                                     .stroke()
                                     .foregroundStyle(.secondary.opacity(0.2))
                             }
@@ -124,48 +129,55 @@ struct EditListView: View {
                     Text("Title:")
                         .bold()
                     TextField("", text: $list.title)
-                        .textFieldStyle(.roundedBorder)
-                }
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(.ultraThinMaterial)
-                }
-                VStack {
-                    HStack {
-                        Text("Budget:")
-                            .bold()
-                        Spacer()
-                        HStack {
-                            Text("$")
-                                .bold()
-                            TextField("Enter a Budget...", text: $budgetString)
-                                .keyboardType(.decimalPad)
-                                .frame(minWidth: 50, maxWidth: 100)
-                                .onSubmit {
-                                    guard !budgetString.isEmpty else { return }
-                                    if String(format: "%.2f", self.list.budget) != budgetString {
-                                        if let newValueDouble = Double(budgetString) {
-                                            list.budget = newValueDouble
-                                        }
-                                    }
-                                }
-                        }
-                        .padding(10)
+                        .padding()
                         .background {
-                            RoundedRectangle(cornerRadius: 20)
+                            RoundedRectangle(cornerRadius: 30)
                                 .stroke()
                                 .foregroundStyle(.secondary.opacity(0.2))
                         }
-                    }
-                    .padding(.vertical)
-                    Slider(value: $list.budget, in: 0...3000, step: 1)
-                        .padding(.vertical)
                 }
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: 20)
                         .foregroundStyle(.ultraThinMaterial)
+                }
+                if list.assignedPerson != nil {
+                    VStack {
+                        HStack {
+                            Text("Budget:")
+                                .bold()
+                            Spacer()
+                            HStack {
+                                Text("$")
+                                    .bold()
+                                TextField("Enter a Budget...", text: $budgetString)
+                                    .keyboardType(.decimalPad)
+                                    .frame(minWidth: 50, maxWidth: 100)
+                                    .onSubmit {
+                                        guard !budgetString.isEmpty else { return }
+                                        if String(format: "%.2f", self.list.budget) != budgetString {
+                                            if let newValueDouble = Double(budgetString) {
+                                                list.budget = newValueDouble
+                                            }
+                                        }
+                                    }
+                            }
+                            .padding(10)
+                            .background {
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke()
+                                    .foregroundStyle(.secondary.opacity(0.2))
+                            }
+                        }
+                        .padding(.vertical)
+                        Slider(value: $list.budget, in: 0...3000, step: 1)
+                            .padding(.vertical)
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundStyle(.ultraThinMaterial)
+                    }
                 }
             }
             .onAppear {

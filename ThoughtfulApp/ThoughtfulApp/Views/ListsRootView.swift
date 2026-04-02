@@ -39,6 +39,15 @@ struct ListsRootView: View {
                             } label: {
                                 Text(wishlist.title)
                             }
+                            .swipeActions(edge: .leading) {
+                                NavigationLink {
+                                    AddEditListView(list: wishlist)
+                                } label: {
+                                    Image(systemName: "pencil")
+                                    Text("Edit")
+                                }
+                                .tint(.blue)
+                            }
                         }
                         .onDelete { offset in
                             let toDelete = offset.map { lists[$0] }

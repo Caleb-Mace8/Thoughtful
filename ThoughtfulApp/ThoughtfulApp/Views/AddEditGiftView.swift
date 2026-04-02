@@ -51,7 +51,12 @@ struct AddGiftView: View {
                     Text("Gift Title:")
                         .bold()
                     TextField("Enter a Title...", text: $gift.title)
-                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke()
+                                .foregroundStyle(.secondary.opacity(0.2))
+                        }
                 }
                 .padding(.vertical)
                 HStack {
@@ -59,14 +64,24 @@ struct AddGiftView: View {
                         .bold()
                     TextField("Enter a Gift Description...", text: $gift.giftDescription, axis: .vertical)
                         .lineLimit(1...6)
-                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke()
+                                .foregroundStyle(.secondary.opacity(0.2))
+                        }
                 }
                 .padding(.vertical)
                 HStack {
                     Text("Link to Gift:")
                         .bold()
                     TextField("Enter a Link...", text: $link)
-                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke()
+                                .foregroundStyle(.secondary.opacity(0.2))
+                        }
                 }
             }
             .padding()
@@ -95,7 +110,7 @@ struct AddGiftView: View {
                 }
                 .padding(10)
                 .background {
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 30)
                         .stroke()
                         .foregroundStyle(.secondary.opacity(0.2))
                 }
@@ -180,7 +195,12 @@ struct EditGiftView: View {
                         Text("Gift Title:")
                             .bold()
                         TextField("Enter a Title...", text: $title)
-                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke()
+                                    .foregroundStyle(.secondary.opacity(0.2))
+                            }
                     }
                     .padding(.vertical)
                     HStack {
@@ -188,14 +208,28 @@ struct EditGiftView: View {
                             .bold()
                         TextField("Enter a Gift Description...", text: $giftDescription, axis: .vertical)
                             .lineLimit(1...6)
-                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .foregroundStyle(.ultraThinMaterial)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke()
+                                            .foregroundStyle(.secondary.opacity(0.2))
+                                    }
+                            }
                     }
                     .padding(.vertical)
                     HStack {
                         Text("Link to Gift:")
                             .bold()
                         TextField("Enter a Link...", text: $link)
-                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke()
+                                    .foregroundStyle(.secondary.opacity(0.2))
+                            }
                     }
                 }
                 .padding()
@@ -224,7 +258,7 @@ struct EditGiftView: View {
                     }
                     .padding(10)
                     .background {
-                        RoundedRectangle(cornerRadius: 20)
+                        RoundedRectangle(cornerRadius: 30)
                             .stroke()
                             .foregroundStyle(.secondary.opacity(0.2))
                     }

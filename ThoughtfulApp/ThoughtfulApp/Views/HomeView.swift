@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct HomeView: View {
+    @Environment(NotificationManager.self) var notificationManager
     @Query(sort: \Person.name, order: .forward) var people: [Person]
     @Environment(\.modelContext) var context
     @State var viewModel = HomeViewModel()
@@ -25,7 +26,7 @@ struct HomeView: View {
                             viewModel.person = nil
                             viewModel.isPresenting.toggle()
                         } label: {
-                            Image(systemName: "plus.circle.fill")
+                            Image(systemName: "plus")
                         }
                         .buttonStyle(.glassProminent)
                         .tint(.accent)
@@ -71,6 +72,7 @@ struct HomeView: View {
                             .onDelete(perform: { offset in
                                 let toDelete = offset.map { people[$0] }
                                 for i in toDelete {
+                                    notificationManager.cancelNotification(for: i)
                                     context.delete(i)
                                 }
                                 viewModel.people = people

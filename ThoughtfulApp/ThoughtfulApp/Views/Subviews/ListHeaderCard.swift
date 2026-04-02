@@ -1,13 +1,13 @@
-//
-//  ListHeaderCard.swift
-//  ThoughtfulApp
-//
-//  Created by Caleb Mace on 3/17/26.
-//
+    //
+    //  ListHeaderCard.swift
+    //  ThoughtfulApp
+    //
+    //  Created by Caleb Mace on 3/17/26.
+    //
 
 import SwiftUI
 
-// Displayed above lists for Wishlists, contains information such as title, gift count, budget, and buttons for adding gifts and editing the list.
+    // Displayed above lists for Wishlists, contains information such as title, gift count, budget, and buttons for adding gifts and editing the list.
 
 struct ListHeaderCard: View {
     var person: Person
@@ -35,6 +35,7 @@ struct ListHeaderCard: View {
         let progress = min(max(spent / budget, 0), 1)
         return progress * barWidth
     }
+    var geometry: GeometryProxy
     var body: some View {
         VStack {
             HStack {
@@ -48,7 +49,8 @@ struct ListHeaderCard: View {
                     Image(systemName: "pencil")
                         .frame(width: 30, height: 30)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.glassProminent)
+                .tint(.blue)
                 NavigationLink {
                     AddEditGiftView(wishlist: list)
                 } label: {
@@ -81,10 +83,10 @@ struct ListHeaderCard: View {
                     .frame(width: filledBarPercent, height: 50)
             }
         }
-        .scaledToFill()
+        .frame(width: geometry.size.width - 70, height: 250)
         .padding()
         .background {
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 30)
                 .foregroundStyle(.card)
         }
     }
