@@ -105,7 +105,6 @@ struct HomeView: View {
             }
             .sheet(isPresented: $viewModel.isPresenting) {
                 AddEditPersonView(person: viewModel.person)
-                    .presentationDetents([.fraction(0.8)])
             }
             .navigationTitle("People")
         }

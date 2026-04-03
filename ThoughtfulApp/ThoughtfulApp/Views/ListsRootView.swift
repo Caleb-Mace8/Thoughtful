@@ -72,7 +72,6 @@ struct ListsRootView: View {
             }
             .sheet(isPresented: $isPresentingSheet) {
                 AddEditListView(person: nil)
-                    .presentationDetents([.medium])
             }
         }
         .onAppear {

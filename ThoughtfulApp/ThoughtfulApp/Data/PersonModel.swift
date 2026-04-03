@@ -11,6 +11,7 @@ import SwiftData
 @Model
 final class Person: Identifiable {
     var id: UUID = UUID()
+    var image: String?
     var name: String
     var age: Int {
         return Calendar.current.dateComponents([.year], from: birthday, to: Date()).year!

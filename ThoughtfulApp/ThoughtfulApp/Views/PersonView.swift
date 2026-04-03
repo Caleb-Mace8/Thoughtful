@@ -70,6 +70,7 @@ struct PersonView: View {
                         }
                     }
                 }
+                .scrollDismissesKeyboard(.immediately)
                 .scrollIndicators(.hidden)
                 .toolbar {
                     ToolbarItem {
