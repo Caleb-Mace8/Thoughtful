@@ -32,7 +32,7 @@ struct GiftView: View {
     var body: some View {
         ScrollView {
             VStack {
-                VStack {
+                VStack(alignment: .leading) {
                     HStack {
                         Text(gift.title)
                             .font(.title.bold())
@@ -101,6 +101,7 @@ struct GiftView: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .padding()
         .toolbar {
             ToolbarItem {

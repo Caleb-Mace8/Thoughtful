@@ -31,7 +31,7 @@ struct UpcomingBirthdaysCardSubview: View {
         .frame(width: 200, height: 65)
         .padding()
         .background {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 20)
                 .foregroundStyle(.accent)
         }
     }

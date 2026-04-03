@@ -22,7 +22,7 @@ struct ListHeaderCard: View {
         return count
     }
     var filledBarPercent: Double {
-        let barWidth: Double = 335
+        let barWidth: Double = geometry.size.width - 80
         let spent: Double = list.gifts.reduce(0) { partial, gift in
             if gift.giftStatus != GiftStatus.notBought {
                 return partial + max(0, gift.price)
@@ -77,7 +77,7 @@ struct ListHeaderCard: View {
             ZStack(alignment: .leading){
                 RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(.ultraThickMaterial)
-                    .frame(width: 335, height: 50)
+                    .frame(width: geometry.size.width - 80, height: 50)
                 RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(total > list.budget ? Color.red : Color.green)
                     .frame(width: filledBarPercent, height: 50)
