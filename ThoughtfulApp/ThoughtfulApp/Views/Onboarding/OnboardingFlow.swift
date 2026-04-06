@@ -40,7 +40,7 @@ public struct OnboardingFlow: View {
                         title: "Thanks for downloading Thoughtful",
                         subtitle: "This quick tutorial will help you get up to speed.",
                         buttons: AnyView(
-                            Button("Continue") {
+                            Button("Start") {
                                 advancePage()
                             }
                             .buttonStyle(.borderedProminent)
@@ -55,7 +55,7 @@ public struct OnboardingFlow: View {
                         title: "People Tab",
                         subtitle: "At the bottom of the screen there is two tabs: People and Lists. Add a person by going to the People tab and tapping the + in the top right.",
                         buttons: AnyView(
-                            Button("Continue") {
+                            Button("Next") {
                                 advancePage()
                             }
                             .buttonStyle(.borderedProminent)
@@ -70,7 +70,7 @@ public struct OnboardingFlow: View {
                         title: "Creating Lists",
                         subtitle: "Tap a person, then tap + on the list header to add a gift. Pressing the + button in the top right will allow for a new list to be added to the person.",
                         buttons: AnyView(
-                            Button("Continue") {
+                            Button("Next") {
                                 advancePage()
                             }
                             .buttonStyle(.borderedProminent)
@@ -85,7 +85,7 @@ public struct OnboardingFlow: View {
                         title: "Wishlists Tab",
                         subtitle: "Create wishlists for yourself by hitting + in the top right on the Lists tab.",
                         buttons: AnyView(
-                            Button("Continue") {
+                            Button("Next") {
                                 advancePage()
                             }
                             .buttonStyle(.borderedProminent)
@@ -117,14 +117,8 @@ public struct OnboardingFlow: View {
                     )
                     .tag(4)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                .tabViewStyle(PageTabViewStyle())
                 .frame(maxWidth: 700, maxHeight: 650)
-                .background(
-                    RoundedRectangle(cornerRadius: 32, style: .continuous)
-                        .foregroundStyle(.ultraThinMaterial)
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-                .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 10)
                 .padding()
             }
         }

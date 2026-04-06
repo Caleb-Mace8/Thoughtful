@@ -56,17 +56,3 @@ public struct OnboardingPageView: View {
         }
     }
 }
-
-#Preview {
-    OnboardingPageView(
-        imageName: "sparkles",
-        title: "Thanks for downloading Thoughtful",
-        subtitle: "This quick tutorial will help you get up to speed.",
-        buttons: AnyView(
-            Button("Continue") {}
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-        )
-    )
-}
-
