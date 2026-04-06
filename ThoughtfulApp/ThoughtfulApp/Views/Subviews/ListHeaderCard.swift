@@ -49,8 +49,7 @@ struct ListHeaderCard: View {
                     Image(systemName: "pencil")
                         .frame(width: 30, height: 30)
                 }
-                .buttonStyle(.glassProminent)
-                .tint(.blue)
+                .buttonStyle(.glass)
                 NavigationLink {
                     AddEditGiftView(wishlist: list)
                 } label: {
@@ -70,6 +69,8 @@ struct ListHeaderCard: View {
             }
             .padding(.vertical)
             HStack {
+                Text("Total:")
+                    .foregroundStyle(.standardizedText)
                 Text("$\(total, specifier: "%.2f")")
                     .foregroundStyle(.standardizedText)
                 Spacer()

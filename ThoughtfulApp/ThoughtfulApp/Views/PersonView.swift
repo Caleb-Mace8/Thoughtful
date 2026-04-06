@@ -75,6 +75,13 @@ struct PersonView: View {
                 .toolbar {
                     ToolbarItem {
                         NavigationLink {
+                            AddEditPersonView(person: person)
+                        } label: {
+                            Image(systemName: "pencil")
+                        }
+                    }
+                    ToolbarItem {
+                        NavigationLink {
                             AddEditListView(person: person)
                         } label: {
                             Image(systemName: "plus")

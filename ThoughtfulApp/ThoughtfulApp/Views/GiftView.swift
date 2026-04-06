@@ -1,9 +1,9 @@
-    //
-    //  GiftView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/6/26.
-    //
+//
+//  GiftView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/6/26.
+//
 
 import SwiftUI
 
@@ -112,8 +112,7 @@ struct GiftView: View {
                     Text("Edit")
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(Color(.blue))
-                .buttonBorderShape(.capsule)
+                .tint(.accent)
             }
         }
     }

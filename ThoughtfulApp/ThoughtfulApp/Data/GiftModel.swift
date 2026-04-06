@@ -18,9 +18,9 @@ enum GiftStatus: String, Codable, CaseIterable {
     var name: String {
         switch self {
             case .notBought:
-                "Not Bought"
+                "Unpurchased"
             case .inShipping:
-                "In Shipping"
+                "In transit"
             case .purchased:
                 "Purchased"
             case .delivered:

@@ -1,9 +1,9 @@
-    //
-    //  AddEditListView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/17/26.
-    //
+//
+//  AddEditListView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/17/26.
+//
 
 import SwiftUI
 import Foundation
@@ -85,6 +85,11 @@ struct AddListView: View {
                 .toolbar {
                     ToolbarItem {
                         Button {
+                            if String(format: "%.2f", self.list.budget) != budgetString {
+                                if let newValueDouble = Double(budgetString) {
+                                    list.budget = newValueDouble
+                                }
+                            }
                             if let person {
                                 person.wishlists.append(list)
                             } else {

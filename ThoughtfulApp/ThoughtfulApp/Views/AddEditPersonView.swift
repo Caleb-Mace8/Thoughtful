@@ -47,7 +47,7 @@ struct AddPersonView: View {
                             }
                     }
                     .padding(.vertical)
-                    DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
+                    DatePicker("Birthdate", selection: $person.birthday, displayedComponents: .date)
                         .padding(.vertical)
                         .bold()
                     HStack {
@@ -218,7 +218,7 @@ struct EditPersonView: View {
                         }
                 }
                 .padding(.vertical)
-                DatePicker("Birthday", selection: $person.birthday, displayedComponents: .date)
+                DatePicker("Birthdate", selection: $person.birthday, displayedComponents: .date)
                     .padding(.vertical)
                     .bold()
                 HStack {
