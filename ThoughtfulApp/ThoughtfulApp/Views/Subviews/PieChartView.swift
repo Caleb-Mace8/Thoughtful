@@ -1,9 +1,9 @@
-    //
-    //  PieChartView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/24/26.
-    //
+//
+//  PieChartView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/24/26.
+//
 
 import SwiftUI
 import Charts

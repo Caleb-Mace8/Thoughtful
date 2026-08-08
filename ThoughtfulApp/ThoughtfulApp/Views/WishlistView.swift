@@ -1,9 +1,9 @@
-    //
-    //  WishlistView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/24/26.
-    //
+//
+//  WishlistView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/24/26.
+//
 
 import SwiftUI
 import SwiftData

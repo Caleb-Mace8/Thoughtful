@@ -1,13 +1,13 @@
-    //
-    //  ListHeaderCard.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/17/26.
-    //
+//
+//  ListHeaderCard.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/17/26.
+//
 
 import SwiftUI
 
-    // Displayed above lists for Wishlists, contains information such as title, gift count, budget, and buttons for adding gifts and editing the list.
+// Displayed above lists for Wishlists, contains information such as title, gift count, budget, and buttons for adding gifts and editing the list.
 
 struct ListHeaderCard: View {
     var person: Person

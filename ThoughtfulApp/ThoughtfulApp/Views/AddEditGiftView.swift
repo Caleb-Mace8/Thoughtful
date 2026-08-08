@@ -1,9 +1,9 @@
-    //
-    //  AddEditGiftView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 2/13/26.
-    //
+//
+//  AddEditGiftView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 2/13/26.
+//
 
 import SwiftUI
 import SwiftData

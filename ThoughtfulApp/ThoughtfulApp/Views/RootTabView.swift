@@ -15,7 +15,7 @@ struct RootTabView: View {
                 HomeView()
             }
             Tab("Lists", systemImage: "book.pages") {
-                ListsRootView()
+                ListsView()
             }
         }
         .tabViewStyle(.sidebarAdaptable)

@@ -1,14 +1,14 @@
-    //
-    //  ListsRootView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 3/9/26.
-    //
+//
+//  ListsView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 3/9/26.
+//
 
 import SwiftUI
 import SwiftData
 
-struct ListsRootView: View {
+struct ListsView: View {
     @Query(sort: \Wishlist.title, order: .forward) var allLists: [Wishlist]
     @Environment(\.modelContext) var context
     @State var lists: [Wishlist] = []

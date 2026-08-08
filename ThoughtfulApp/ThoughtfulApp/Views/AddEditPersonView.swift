@@ -1,9 +1,9 @@
-    //
-    //  AddEditPersonView.swift
-    //  ThoughtfulApp
-    //
-    //  Created by Caleb Mace on 2/13/26.
-    //
+//
+//  AddEditPersonView.swift
+//  ThoughtfulApp
+//
+//  Created by Caleb Mace on 2/13/26.
+//
 
 import SwiftUI
 import SwiftData

@@ -12,7 +12,7 @@ import Observation
 @Observable
 final class NotificationManager: NSObject {
     func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .criticalAlert]) { granted, _ in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
             if granted {
             
             }
