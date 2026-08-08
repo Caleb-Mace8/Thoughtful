@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E4B3657C3026CBE600D3E923 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E4B3657B3026CBE600D3E923 /* PrivacyInfo.xcprivacy */; };
+		E4B3657E3026D2E300D3E923 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E4B3657D3026D2E300D3E923 /* PrivacyInfo.xcprivacy */; };
+		E4B365803026E1F900D3E923 /* ThoughtfulAppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = E4B3657F3026E1F900D3E923 /* ThoughtfulAppIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E489F1152F3F704700E4C232 /* Thoughtful Gift Management.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Thoughtful Gift Management.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4B3657B3026CBE600D3E923 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ThoughtfulApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E4B3657D3026D2E300D3E923 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E4B3657F3026E1F900D3E923 /* ThoughtfulAppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = ThoughtfulAppIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,9 +39,10 @@
 		E489F10C2F3F704700E4C232 = {
 			isa = PBXGroup;
 			children = (
-				E4B3657B3026CBE600D3E923 /* PrivacyInfo.xcprivacy */,
 				E489F1172F3F704700E4C232 /* ThoughtfulApp */,
 				E489F1162F3F704700E4C232 /* Products */,
+				E4B3657D3026D2E300D3E923 /* PrivacyInfo.xcprivacy */,
+				E4B3657F3026E1F900D3E923 /* ThoughtfulAppIcon.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,7 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4B3657C3026CBE600D3E923 /* PrivacyInfo.xcprivacy in Resources */,
+				E4B365803026E1F900D3E923 /* ThoughtfulAppIcon.icon in Resources */,
+				E4B3657E3026D2E300D3E923 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,8 +262,9 @@
 		E489F1212F3F704900E4C232 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ThoughtfulAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JFP8T42R4G;
@@ -293,8 +298,9 @@
 		E489F1222F3F704900E4C232 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ThoughtfulAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JFP8T42R4G;
